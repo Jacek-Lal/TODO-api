@@ -43,4 +43,13 @@ class TaskServiceTest {
                 .hasMessage("Task with id 99 not found");
     }
 
+    @Test
+    @DisplayName("should throw ResourceNotFoundException when deleting non-existent task")
+    void shouldThrowWhenDeletingNonExistentTask() {
+        when(taskRepository.findById(99L)).thenReturn(Optional.empty());
+
+        assertThatThrownBy(() -> taskService.deleteTask(99L))
+                .isInstanceOf(ResourceNotFoundException.class)
+                .hasMessage("Task with id 99 not found");
+    }
 }

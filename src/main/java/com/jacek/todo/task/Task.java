@@ -9,7 +9,7 @@ import java.time.Instant;
 
 @Entity
 @Getter
-@Table(name = "task")
+@Table(name = "tasks")
 public class Task {
 
     @Id

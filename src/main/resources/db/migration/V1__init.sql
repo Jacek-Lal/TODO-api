@@ -1,5 +1,5 @@
 CREATE TABLE tasks (
-    id SERIAL PRIMARY KEY,
+    id BIGSERIAL PRIMARY KEY,
     title TEXT NOT NULL,
     description TEXT,
     status TEXT NOT NULL CHECK (status IN ('NEW', 'IN_PROGRESS', 'DONE')),

@@ -1,4 +1,4 @@
-package com.jacek.todo;
+package com.jacek.todo.integration;
 
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;

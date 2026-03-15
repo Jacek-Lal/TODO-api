@@ -37,4 +37,8 @@ public class TaskController {
         return ResponseEntity.ok(taskService.getTasks(pageable));
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<TaskResponse> getTask(@PathVariable Long id){
+        return ResponseEntity.ok(taskService.getTask(id));
+    }
 }

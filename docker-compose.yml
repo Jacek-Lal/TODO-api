@@ -3,6 +3,7 @@ services:
         image: postgres:16
         container_name: todo-postgres
         environment:
+            POSTGRES_DB: todo
             POSTGRES_USER: postgres
             POSTGRES_PASSWORD: password
         ports:

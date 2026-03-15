@@ -2,7 +2,6 @@ package com.jacek.todo.task;
 
 import com.jacek.todo.common.exception.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.jspecify.annotations.Nullable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -29,6 +28,16 @@ public class TaskService {
                 .orElseThrow(()-> new ResourceNotFoundException("Task with id " + id + " not found"));
 
         return taskMapper.toResponse(task);
+    }
+
+    public TaskResponse updateTask(Long id, TaskRequest request) {
+        Task task = taskRepository.findById(id)
+                .orElseThrow(()-> new ResourceNotFoundException("Task with id " + id + " not found"));
+
+        taskMapper.updateEntity(request, task);
+        Task savedTask = taskRepository.save(task);
+
+        return taskMapper.toResponse(savedTask);
     }
 }
 

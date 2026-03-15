@@ -31,4 +31,16 @@ class TaskServiceTest {
                 .isInstanceOf(ResourceNotFoundException.class)
                 .hasMessage("Task with id 99 not found");
     }
+
+    @Test
+    @DisplayName("should throw ResourceNotFoundException when updating non-existent task")
+    void shouldThrowWhenUpdatingNonExistentTask() {
+        TaskRequest request =  new TaskRequest("title", "desc", TaskStatus.NEW);
+        when(taskRepository.findById(99L)).thenReturn(Optional.empty());
+
+        assertThatThrownBy(() -> taskService.updateTask(99L, request))
+                .isInstanceOf(ResourceNotFoundException.class)
+                .hasMessage("Task with id 99 not found");
+    }
+
 }

@@ -7,6 +7,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import tools.jackson.databind.exc.InvalidFormatException;
 
 import java.time.Instant;
@@ -52,6 +53,14 @@ public class GlobalExceptionHandler {
         if (cause instanceof InvalidFormatException)
             message = "Invalid value provided. Please refer to the API documentation";
 
+        ErrorResponse response = new ErrorResponse(status.value(), message, Instant.now());
+        return ResponseEntity.status(status).body(response);
+    }
+
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<ErrorResponse> handleTypeMismatch(MethodArgumentTypeMismatchException e) {
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        String message = "Invalid value '" + e.getValue() + "' for parameter '" + e.getName() + "`";
         ErrorResponse response = new ErrorResponse(status.value(), message, Instant.now());
         return ResponseEntity.status(status).body(response);
     }

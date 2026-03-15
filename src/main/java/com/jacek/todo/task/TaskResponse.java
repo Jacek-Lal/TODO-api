@@ -1,4 +1,7 @@
 package com.jacek.todo.task;
 
-public record TaskResponse() {
+import java.time.Instant;
+
+public record TaskResponse(Long id, String title, String description,
+                           TaskStatus status, Instant createdAt) {
 }

@@ -10,6 +10,7 @@ import java.time.Instant;
 @Entity
 @Getter
 @Table(name = "tasks")
+@NoArgsConstructor
 public class Task {
 
     @Id

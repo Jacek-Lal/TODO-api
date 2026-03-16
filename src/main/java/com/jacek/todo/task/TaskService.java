@@ -1,6 +1,7 @@
 package com.jacek.todo.task;
 
 import com.jacek.todo.common.exception.ResourceNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,9 +14,10 @@ public class TaskService {
     private final TaskRepository taskRepository;
     private final TaskMapper taskMapper;
 
+    @Transactional
     public TaskResponse createTask(TaskRequest request) {
-        Task newtask = taskMapper.toEntity(request);
-        Task savedTask = taskRepository.save(newtask);
+        Task newTask = taskMapper.toEntity(request);
+        Task savedTask = taskRepository.save(newTask);
         return taskMapper.toResponse(savedTask);
     }
 
@@ -30,6 +32,7 @@ public class TaskService {
         return taskMapper.toResponse(task);
     }
 
+    @Transactional
     public TaskResponse updateTask(Long id, TaskRequest request) {
         Task task = taskRepository.findById(id)
                 .orElseThrow(()-> new ResourceNotFoundException("Task with id " + id + " not found"));
@@ -40,6 +43,7 @@ public class TaskService {
         return taskMapper.toResponse(savedTask);
     }
 
+    @Transactional
     public void deleteTask(Long id) {
         Task task = taskRepository.findById(id)
                 .orElseThrow(()-> new ResourceNotFoundException("Task with id " + id + " not found"));

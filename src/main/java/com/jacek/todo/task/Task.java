@@ -32,7 +32,7 @@ public class Task {
     @Column(name = "created_at", nullable = false, updatable = false)
     private Instant createdAt;
 
-    Task(String title, String description, TaskStatus status){
+    public Task(String title, String description, TaskStatus status){
         this.title = title;
         this.description = description;
         this.status = status;

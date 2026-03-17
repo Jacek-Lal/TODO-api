@@ -8,6 +8,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 import tools.jackson.databind.exc.InvalidFormatException;
 
 import java.time.Instant;
@@ -25,9 +26,16 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(value = ResourceNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleResourseNotFound(Exception e){
+    public ResponseEntity<ErrorResponse> handleResourseNotFound(ResourceNotFoundException e){
         HttpStatus status = HttpStatus.NOT_FOUND;
         ErrorResponse response = new ErrorResponse(status.value(), e.getMessage(), Instant.now());
+        return ResponseEntity.status(status.value()).body(response);
+    }
+    @ExceptionHandler(value = NoResourceFoundException.class)
+    public ResponseEntity<ErrorResponse> handleNoStaticResourceFound(NoResourceFoundException e){
+        HttpStatus status = HttpStatus.NOT_FOUND;
+        String message = "The requested resource was not found. API documentation is available at /swagger-ui.html";
+        ErrorResponse response = new ErrorResponse(status.value(), message, Instant.now());
         return ResponseEntity.status(status.value()).body(response);
     }
 
